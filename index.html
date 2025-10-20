@@ -3,69 +3,44 @@
 <head>
   <meta charset="utf-8">
   <title>Applixir 動画広告テスト</title>
-  <script src="https://cdn.applixir.com/applixir.sdk3.0m.js"></script>
-  <style>
-    body {
-      text-align: center;
-      font-family: sans-serif;
-      padding: 40px;
-      background: #fafafa;
-    }
-    button {
-      padding: 12px 24px;
-      font-size: 16px;
-      border: none;
-      border-radius: 6px;
-      background: #007bff;
-      color: white;
-      cursor: pointer;
-    }
-    button:hover {
-      background: #0056cc;
-    }
-    #message {
-      margin-top: 20px;
-      font-weight: bold;
-      display: none;
-      color: #008000;
-    }
-  </style>
+  <script type="text/javascript" src="https://cdn.applixir.com/applixir.sdk3.0m.js"></script>
 </head>
-<body>
+<body style="text-align:center; font-family:sans-serif; padding:40px;">
   <h2>🎬 動画広告を見る</h2>
   <p>広告を最後まで見ると、サポートが完了します。</p>
 
-  <button id="playAdBtn">▶ 再生する</button>
+  <button id="playAdBtn" style="padding:12px 24px; font-size:16px; border:none; border-radius:6px; background:#007bff; color:white; cursor:pointer;">
+    ▶ 再生する
+  </button>
 
-  <div id="message">✅ 視聴ありがとうございました！</div>
+  <div id="message" style="margin-top:20px; font-weight:bold; display:none;">
+    ✅ 視聴ありがとうございました！
+  </div>
 
-  <!-- Applixirプレイヤー -->
-  <div id="applixir_videoplayer" style="width:100%; height:480px;"></div>
-  <div id="applixir_blocker" style="display:none;"></div>
+  <!-- 公式ガイドにある「アンカー要素」 -->
+  <div id="some-id" style="width:100%; height:480px;"></div>
 
-  <script>
+  <script type="text/javascript">
     const options = {
-      apiKey: "dd99297e-6890-48ec-9627-77313b7e5c2c", // あなたのAPIキー
-      injectionElementId: "applixir_videoplayer",
+      apiKey: "dd99297e-6890-48ec-9627-77313b7e5c2c",  // ご自身のAPIキー
+      injectionElementId: "some-id",                     // 公式ガイドの名称
       adStatusCallbackFn: (status) => {
-        console.log("Ad status:", status);
-        if (status === "ad-complete") {
+        console.log("OUTSIDE Ad status:", status);
+        if (status === "complete") {
           document.getElementById("message").style.display = "block";
         }
       },
       adErrorCallbackFn: (error) => {
-        console.error("Applixir error:", error);
+        console.log("Error:", error.getError().data);
         alert("広告の読み込みに失敗しました。");
       }
     };
 
     document.getElementById("playAdBtn").addEventListener("click", () => {
-      if (typeof initializeAndOpenPlayer === "function") {
-        initializeAndOpenPlayer(options);
-      } else {
-        alert("Applixir SDKの読み込みに失敗しました。");
-      }
+      initializeAndOpenPlayer(options);
     });
   </script>
+
 </body>
 </html>
+
